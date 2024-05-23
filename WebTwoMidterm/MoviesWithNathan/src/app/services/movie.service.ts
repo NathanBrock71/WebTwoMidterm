@@ -7,6 +7,11 @@ import { MongoClient, ObjectId } from 'mongodb';
 export class MovieService {
 
   constructor() { }
+
+  getMovieById(){
+    var db = new DBActions();
+    return db.Find('573a1390f29313caabcd42e8');
+  }
 }
 
 class DBActions {
