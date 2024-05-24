@@ -4,11 +4,11 @@ import { MongoClient, ObjectId } from 'mongodb';
 @Injectable({
   providedIn: 'root'
 })
-export class MovieService {
+export class MovieServiceService {
 
   constructor() { }
 
-  getMovieById(){
+  getMovieById() {
     var db = new DBActions();
     return db.Find('573a1390f29313caabcd42e8');
   }
