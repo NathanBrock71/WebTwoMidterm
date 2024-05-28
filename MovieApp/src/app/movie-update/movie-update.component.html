@@ -1,1 +1,51 @@
-<p>movie-update works!</p>
+<!-- Container (Contact Section) -->
+<div class="w3-content w3-container w3-padding-64" id="contact">
+    <h3 class="w3-center">UPDATE A MOVIE</h3>
+    <p class="w3-center"><em>Update movie details below!</em></p>
+  
+    <div class="w3-row w3-padding-32 w3-section">
+      <div class="w3-col w3-panel">
+        <form (ngSubmit)="updateMovie()">
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="text" placeholder="Title" required [(ngModel)]="Movie.title" name="Title">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="text" placeholder="Directors" required [(ngModel)]="Movie.directors" name="Directors">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="number" placeholder="RunTime" required [(ngModel)]="Movie.runtime" name="RunTime">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <select class="w3-input w3-border" required [(ngModel)]="Movie.rated" name="Rating">
+              <option value="" disabled selected>Select Rating</option>
+              <option value="G">G - General Audiences</option>
+              <option value="PG">PG - Parental Guidance Suggested</option>
+              <option value="PG-13">PG-13 - Parents Strongly Cautioned</option>
+              <option value="R">R - Restricted</option>
+              <option value="NC-17">NC-17 - Adults Only</option>
+            </select>
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="date" placeholder="YYYY/MM/DD" required pattern="\d{4}/\d{2}/\d{2}" title="Please enter a date in the format YYYY/MM/DD" [(ngModel)]="Movie.released" name="Date">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="text" placeholder="Genres" required [(ngModel)]="Movie.genres" name="Genres">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <input class="w3-input w3-border" type="text" placeholder="Poster URL" required [(ngModel)]="Movie.poster" name="Url">
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <textarea class="w3-input w3-border" type="text" required [(ngModel)]="Movie.plot" name="plot" rows="2" placeholder="Summary"></textarea>
+          </div>
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <textarea class="w3-input w3-border" required [(ngModel)]="Movie.fullplot" name="fullPlot" rows="6" placeholder="Full Plot"></textarea>
+          </div>
+  
+          <button class="w3-button w3-black w3-right w3-section" type="submit">
+            <i class="fa fa-paper-plane"></i> Update Movie
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

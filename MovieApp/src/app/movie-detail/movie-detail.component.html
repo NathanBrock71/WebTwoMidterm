@@ -1,5 +1,21 @@
-<!-- Full screen modal -->
-<div class="modal-dialog modal-fullscreen-sm-down">
-    ...<p>movie-detail works!</p>
-    <div>{{Movie._id}}
+<div *ngIf="Movie" class="container w3-padding-64">
+    <div class="row">
+        <div class="col m4">
+            <img [src]="Movie.poster || '../assets/img/default-movie.png'" class="image" [alt]="Movie.title">
+        </div>
+        <div class="col m2">
+            <h2><b>{{ Movie.title }}</b></h2>
+            <p><strong>Rating:</strong> {{ Movie.rated }}</p>
+            <p><strong>Release Date:</strong> {{ Movie.released | date:'yyyy/MM/dd' }}</p>
+            <p><strong>Runtime:</strong> {{ Movie.runtime }} minutes</p>
+            <p><strong>Directors:</strong> {{ Movie.directors.join(', ') }}</p>
+            <p><strong>Genres:</strong> {{ Movie.genres.join(', ') }}</p>
+            <h4><strong>Summary:</strong></h4>
+            <p>{{ Movie.plot }}</p>
+            <h4><strong>Full Plot:</strong></h4>
+            <p>{{ Movie.fullplot }}</p>
+            <a routerLink="/update/{{Movie._id}}" class="w3-bar-item w3-button w3-hide-small">UPDATE</a>
+            <button (click)="deleteMovie()" class="w3-bar-item w3-button w3-hide-small">DELETE</button>
+        </div>
     </div>
+</div>

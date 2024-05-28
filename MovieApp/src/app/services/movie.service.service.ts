@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class MovieServiceService {
   }
 
   updateMovie(id: string, update: any) {
-    this.mongoService.update(id, update);
+    this.mongoService.update(update._id, update);
   }
 
   createMovie(movie: any) {
@@ -30,6 +31,10 @@ export class MovieServiceService {
 
   getMoviesWithPagination(page: number, pagesize: number) {
     return this.mongoService.findAllWithPagination(page, pagesize)
+  }
+
+  getTotalMovies() {
+    return this.mongoService.findTotalMovies();
   }
 }
 
@@ -61,7 +66,7 @@ class MongoDBService {
   }
 
   // Method to find a document by ID
-  public async findById(id: string): Promise<void> {
+  public async findById(id: string): Promise<any> {
     try {
       const accessToken = await this.authenticate();
 
@@ -92,6 +97,8 @@ class MongoDBService {
       if (result.document) {
         console.log(`Found a listing in the collection with the id: '${id}':`);
         console.log(result.document);
+        const movies = result.document || [];
+        return movies;
       } else {
         console.log(`No listings found with the id '${id}'`);
       }
@@ -101,7 +108,7 @@ class MongoDBService {
   }
 
   // Method to get all movies
-  public async findAll(): Promise<void> {
+  public async findAll(): Promise<any[]> {
     try {
       const accessToken = await this.authenticate();
 
@@ -127,16 +134,21 @@ class MongoDBService {
       }
 
       const result = await response.json();
+      
 
       if (result.documents) {
         console.log('Found the following listings in the collection:');
         console.log(result.documents);
+        const movies = result.documents || [];
+        return movies;
       } else {
         console.log('No listings found');
       }
     } catch (error) {
       console.error('Error fetching the data:', error);
     }
+
+    return [];
   }
 
   // Method to create a new movie
@@ -184,7 +196,7 @@ class MongoDBService {
         database: "sample_mflix",
         dataSource: "MidtermDB",
         filter: { _id: { $oid: id } },
-        update: { $set: update }
+        update: { $set: { ...update, _id: undefined } }
       };
 
       const response = await fetch(`${this.dataApiUrl}/updateOne`, {
@@ -289,5 +301,17 @@ class MongoDBService {
       return [];
     }
   }
+  
+  public async findTotalMovies(): Promise<number> {
+    var allMovies : any = await this.findAll();
+    var count = 0;
 
+    allMovies.forEach((movie:any) => {
+      count++;
+    });    
+
+    console.log('COUNT: ' + count);
+
+    return count;
+  }
 }

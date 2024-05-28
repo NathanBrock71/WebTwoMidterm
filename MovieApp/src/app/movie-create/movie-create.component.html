@@ -1,33 +1,95 @@
 <!-- Container (Contact Section) -->
 <div class="w3-content w3-container w3-padding-64" id="contact">
-    <h3 class="w3-center">WHERE I WORK</h3>
-    <p class="w3-center"><em>I'd love your feedback!</em></p>
+    <h3 class="w3-center">ADD A MOVIE</h3>
+    <p class="w3-center"><em>We love new submissions!</em></p>
 
     <div class="w3-row w3-padding-32 w3-section">
-        <div class="w3-col m4 w3-container">
-            <img src="/w3images/map.jpg" class="w3-image w3-round" style="width:100%">
-        </div>
-        <div class="w3-col m8 w3-panel">
-            <div class="w3-large w3-margin-bottom">
-                <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Chicago, US<br>
-                <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: +00 151515<br>
-                <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: mail.com<br>
-            </div>
-            <p>Swing by for a cup of <i class="fa fa-coffee"></i>, or leave me a note:</p>
-            <form action="/action_page.php" target="_blank">
+        <div class="w3-col w3-panel">
+            <form (ngSubmit)="add()" #movieForm="ngForm">
                 <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-                    <div class="w3-half">
-                        <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
-                    </div>
-                    <div class="w3-half">
-                        <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+                    <input class="w3-input w3-border" type="text" placeholder="Title" required name="title"
+                        [(ngModel)]="movie.title" #Title="ngModel">
+                    <div *ngIf="Title.invalid && (Title.dirty || Title.touched)" class="error">
+                        Title is required.
                     </div>
                 </div>
-                <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
-                <button class="w3-button w3-black w3-right w3-section" type="submit">
-                    <i class="fa fa-paper-plane"></i> SEND MESSAGE
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <input class="w3-input w3-border" type="text" placeholder="Directors" required name="directors"
+                        [(ngModel)]="movie.directors" #Directors="ngModel">
+                    <div *ngIf="Directors.invalid && (Directors.dirty || Directors.touched)" class="error">
+                        Directors are required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <input class="w3-input w3-border" type="number" placeholder="RunTime" required name="runtime"
+                        [(ngModel)]="movie.runtime" #RunTime="ngModel">
+                    <div *ngIf="RunTime.invalid && (RunTime.dirty || RunTime.touched)" class="error">
+                        RunTime is required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <select class="w3-input w3-border" required name="rating" [(ngModel)]="movie.rating"
+                        #Rating="ngModel">
+                        <option value="" disabled selected>Select Rating</option>
+                        <option value="G">G - General Audiences</option>
+                        <option value="PG">PG - Parental Guidance Suggested</option>
+                        <option value="PG-13">PG-13 - Parents Strongly Cautioned</option>
+                        <option value="R">R - Restricted</option>
+                        <option value="NC-17">NC-17 - Adults Only</option>
+                    </select>
+                    <div *ngIf="Rating.invalid && (Rating.dirty || Rating.touched)" class="error">
+                        Rating is required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <input class="w3-input w3-border" type="date" required name="date" [(ngModel)]="movie.date"
+                        #Date="ngModel" placeholder="YYYY/MM/DD">
+                    <div *ngIf="Date.invalid && (Date.dirty || Date.touched)" class="error">
+                        Date is required in YYYY/MM/DD format.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <input class="w3-input w3-border" type="text" placeholder="Genres" required name="genres"
+                        [(ngModel)]="movie.genres" #Genres="ngModel">
+                    <div *ngIf="Genres.invalid && (Genres.dirty || Genres.touched)" class="error">
+                        Genres are required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <input class="w3-input w3-border" type="text" placeholder="Poster URL" required name="url"
+                        [(ngModel)]="movie.url" #Url="ngModel">
+                    <div *ngIf="Url.invalid && (Url.dirty || Url.touched)" class="error">
+                        Poster URL is required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <textarea class="w3-input w3-border" required name="plot" [(ngModel)]="movie.plot" #Plot="ngModel"
+                        rows="2" placeholder="Summary"></textarea>
+                    <div *ngIf="Plot.invalid && (Plot.dirty || Plot.touched)" class="error">
+                        Summary is required.
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                    <textarea class="w3-input w3-border" required name="fullPlot" [(ngModel)]="movie.fullPlot"
+                        #FullPlot="ngModel" rows="6" placeholder="Full Plot"></textarea>
+                    <div *ngIf="FullPlot.invalid && (FullPlot.dirty || FullPlot.touched)" class="error">
+                        Full Plot is required.
+                    </div>
+                </div>
+
+                <button class="w3-button w3-black w3-right w3-section" type="submit" [disabled]="!movieForm.form.valid">
+                    <i class="fa fa-paper-plane"></i> Submit Movie
                 </button>
             </form>
+
         </div>
     </div>
 </div>
