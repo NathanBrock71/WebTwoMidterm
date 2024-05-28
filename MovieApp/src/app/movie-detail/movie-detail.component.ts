@@ -8,6 +8,8 @@ import { MovieServiceService } from '../services/movie.service.service';
   styleUrl: './movie-detail.component.css'
 })
 export class MovieDetailComponent {
+  Movie: any | undefined;
+
   constructor(private route: ActivatedRoute, private movieService: MovieServiceService){
   }
 
@@ -16,6 +18,9 @@ export class MovieDetailComponent {
   }
 
   getMovie(): void{
-    
+    const id = this.route.snapshot.paramMap.get('_id');
+    if (id != null){
+      this.Movie = this.movieService.getMovieById(id);
+    }
   }
 }

@@ -8,7 +8,7 @@ export class MovieServiceService {
 
   constructor() { }
 
-  getMovies(){
+  getMovies() {
     return this.mongoService.findAll();
   }
 
@@ -16,16 +16,20 @@ export class MovieServiceService {
     return this.mongoService.findById(id);
   }
 
-  updateMovie(id: string, update: any){
+  updateMovie(id: string, update: any) {
     this.mongoService.update(id, update);
   }
 
-  createMovie(movie: any){
+  createMovie(movie: any) {
     this.mongoService.create(movie);
   }
 
-  deleteMovie(id: string){
+  deleteMovie(id: string) {
     this.mongoService.delete(id);
+  }
+
+  getMoviesWithPagination(page: number, pagesize: number) {
+    return this.mongoService.findAllWithPagination(page, pagesize)
   }
 }
 
@@ -240,4 +244,50 @@ class MongoDBService {
       console.error('Error deleting the data:', error);
     }
   }
+
+  // Method to get all movies with pagination
+  public async findAllWithPagination(page: number = 1, pageSize: number = 8): Promise<any[]> {
+    try {
+      const accessToken = await this.authenticate();
+
+      const requestBody = {
+        collection: "movies",
+        database: "sample_mflix",
+        dataSource: "MidtermDB",
+        projection: { _id: 1, title: 1, genres: 1, runtime: 1, rated: 1, released: 1, directors: 1, plot: 1, fullplot: 1, poster: 1 },
+        limit: pageSize,
+        skip: (page - 1) * pageSize
+      };
+
+      const response = await fetch(`${this.dataApiUrl}/find`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      const movies = result.documents || [];
+
+      // Set default poster if not provided
+      movies.forEach((movie: any) => {
+        if (!movie.poster) {
+          movie.poster = '../assets/img/default-movie.png';
+        }
+      });
+
+      return movies;
+    } catch (error) {
+      console.error('Error fetching the data:', error);
+      return [];
+    }
+  }
+
 }

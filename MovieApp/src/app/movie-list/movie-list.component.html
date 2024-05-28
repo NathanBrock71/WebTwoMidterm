@@ -1,1 +1,20 @@
-<p>movie-list works!</p>
+<div class="w3-content w3-container w3-padding-64" id="portfolio">
+  <h3 class="w3-center">Movies</h3>
+  <p class="w3-center"><em>Here are some of our movies<br> Click on the movies for more details</em></p><br>
+
+  <div class="cards">
+    <div *ngFor="let movie of movies" class="card">
+      <a routerLink="/detail/{{movie._id}}">
+        <img [src]="movie.poster || '../assets/img/default-movie.png'" style="width:100%" class="w3-hover-opacity"
+          [alt]="movie.title">
+        <div class="container">
+          <p><b>{{ movie.title }}</b></p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="w3-center w3-section">
+    <button class="w3-button w3-padding-large w3-light-grey" (click)="loadMovies()">LOAD MORE</button>
+  </div>
+</div>
